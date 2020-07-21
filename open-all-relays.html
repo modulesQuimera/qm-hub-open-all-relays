@@ -1,9 +1,10 @@
 <script type="text/javascript">
     RED.nodes.registerType('open-all-relays',{
         category: 'multimeter modular',
-        color: '#C0C0C0',
+        color: '#32CD32',
         defaults: {
             name:{ value: "" },
+            slot:{value:"", required: true},
             // mapeamento:{ value:"", type: "mapping-open-all-relays" },
             // websocket:{ type: "jig-web-socket", required: true },
             // AC_mode:{ value:"" },
@@ -12,8 +13,8 @@
         },
         inputs:1,
         outputs:1,
-        icon: "Open_All_Releys.svg",
-        label: function() { return this.name || "Open All Relays" },
+        icon: "Multimeter_Modular.svg",
+        label: function() { return this.name? "Open All Relays - " + this.name: "Open All Relays" },
         paletteLabel: "Open All Relays",
         // oneditprepare: function() {
         //     var ports = []
@@ -96,7 +97,11 @@
     <div class="form-row columm">
         <strong class="descript">
          Is used to open all relays.
-     </strong>
+    </strong>
+    <div class="form-row columm">
+        <label  for="node-input-slot"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot" style="width:20%;">
+    </div>
 
     <div class="hr-div-relay">
         <hr>
