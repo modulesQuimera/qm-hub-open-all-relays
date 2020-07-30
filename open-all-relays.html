@@ -5,51 +5,85 @@
         defaults: {
             name:{ value: "" },
             slot:{value:"", required: true},
-            // mapeamento:{ value:"", type: "mapping-open-all-relays" },
-            // websocket:{ type: "jig-web-socket", required: true },
-            // AC_mode:{ value:"" },
-            // channel_number:{ value:"" },
-            // scale: { value:"" },
+
+            
+            qtdAll:{value:0},
+            controle:{value:0},
+            slot1:{value:""},
+            slot2:{value:""},
+            slot3:{value:""},
+            slot4:{value:""},
+            slot5:{value:""},
+            slot6:{value:""},
+            slot7:{value:""},
+            slot8:{value:""},
+            slot9:{value:""},
+            slot10:{value:""},
+            slot11:{value:""},
+            slot12:{value:""},
+            slot13:{value:""},
+            slot14:{value:""},
+            slot15:{value:""},
+            slot16:{value:""},
+            slot17:{value:""},
+            slot18:{value:""},
+            slot19:{value:""},
+            slot20:{value:""},
+            slot21:{value:""},
+            slot22:{value:""},
+            slot23:{value:""},
+            slot24:{value:""},
         },
         inputs:1,
         outputs:1,
-        icon: "Multimeter_Modular.svg",
+        icon: "MULTI_METER.svg",
         label: function() { return this.name? "Open All Relays - " + this.name: "Open All Relays" },
         paletteLabel: "Open All Relays",
-        // oneditprepare: function() {
-        //     var ports = []
-        //     var self = this
+        oneditprepare: function() {
+            var self = this
+            self.controle = self.qtdAll;
 
-        //     $.getJSON('getVoltageDiff',function(data) {
-        //         ports = data  
-        //         var portType = "custom";
-        //         for (var i in ports) {
-        //             if (self.channel_number == ports[i].value) {
-        //                 portType = self.channel_number;
-        //             }
-        //         }
-        //         $("#node-config-input-port").typedInput({
-        //             default: self.channel_number,
-        //             types:ports
-        //         });
-        //     })
-        //     $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
-        // },
-        // oneditsave: function() {
-        //     var mytype = $("#node-config-input-port").typedInput('type');
+            for(var i=1; i<=self.controle; i++){
+                $(".all"+i).show();
+            }
+            if(!self.controle || self.controle < 0){
+                self.controle = 0;
+            }
+            $("#addOpenAllRelays").click(function(){
+                self.controle = self.controle+1 <= 24 ? self.controle + 1 : 24;
 
-        //     $("#node-config-input-port").typedInput('value', mytype);
-        //     this.channel_number = $("#node-config-input-port").typedInput('value');
-        // }
+                $(".all"+self.controle).show();
+                console.log(self.controle);
+            });
+            $("#remOpenAllRelays").click(function(){
+                $(".all"+self.controle).hide();
+                self.controle = self.controle-1 >= 0 ? self.controle - 1 : 0;
+                console.log(self.controle);
+            });
+        },
+        oneditsave: function() {
+            this.qtdAll = this.controle;
+        }
     });
 
 </script>
 
 
 <style>
-    
+
+    /* select#node-input-mapeamento {
+        width: 100%;
+        display: none;
+    }
+
+    a#node-input-lookup-mapeamento {
+    position: absolute;
+    right: -30px !important;
+    top: 0px;
+    } */
+
     label{
-        width: 50% !important;
+        width: 100% !important;
         margin-bottom: 2px !important;
     }
 
@@ -66,7 +100,7 @@
     .hr-div-relay{
         display: flex !important;
         justify-content: space-between !important;
-        margin-top: 450px !important;
+        /* margin-top: 450px !important; */
     }
 
     .optional{
@@ -78,21 +112,304 @@
         text-align: center;
     }
 
+
+    .columm-30{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 30% !important;
+        float: left !important;
+    }
+    .columm-50{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 50% !important;
+        float: left !important;
+    }
+
+
+    .columm-70{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 70% !important;
+        float: left !important;
+    }
+
+    .descript-div{
+        max-width: 444px !important;
+    }
+
+    span.red-ui-typedInput-type-label {
+    /* background: chartreuse; */
+    /* display: block; */
+    width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    }
+
+    .btn-aln{
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        /* padding-left: 30px; */
+        align-content: center;
+        align-items: flex-end;
+    }
+
 </style>
 
 
 <script type="text/html" data-template-name="open-all-relays">
 
-    <div class="form-row columm">
+    <div class="form-row columm descript-div">
         <strong class="descript">
          Is used to open all relays.
-    </strong>
+        </strong>
+    </div>
+
+    <div style=" position: relative; display:flex; margin-top: 20px;">
+        <div class="form-row columm-70">
+            <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Identification Note</label>
+            <input type="text" id="node-input-name" placeholder="Name" style="width: 100%">
+        </div>
+        <div class="form-row columm-30" style="align-items: flex-end !important;">
+            <label style="width: max-content !important; padding-right: 24px;"><i class="fa fa-list-ul"></i> Item</label>
+            <div class="form-row btn-aln" >
+                <a id="addOpenAllRelays" class="red-ui-button" ><i class="fa fa-plus"></i></a>
+                <a id="remOpenAllRelays" class="red-ui-button" style="margin-right: 5px;" ><i class="fa fa-minus"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="form-row" style="display:flex; justify-content: space-between;">
+        <button  class="btn-uni btn-add"  type="button" id="addOpenAllRelays"> <i class="fa fa-plus" style="margin-right: 5px; font-size: 15px;"></i></button>
+        <button class="btn-uni btn-remove"   type="button" id="remOpenAllRelays"> <i class="fa fa-trash" style="margin-right: 10px; font-size: 15px;"></i></button>
+    </div> -->
+    <div class="hr-div-relay">
+        <hr>
+        <span class="optional">Slot 0</span>
+        <hr>
+    </div>
     <div class="form-row columm">
         <label  for="node-input-slot"><i class="fa fa-sliders"></i> Slot</label>
         <input min="0" type="number" id="node-input-slot" style="width:20%;">
     </div>
+    <div class="all1" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 1</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot1"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot1" style="width:20%;">
+    </div>
+    <div class="all2" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 2</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot2"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot2" style="width:20%;">
+    </div>
+    <div class="all3" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 3</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot3"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot3" style="width:20%;">
+    </div>
+    <div class="all4" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 4</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot4"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot4" style="width:20%;">
+    </div>
+    <div class="all5" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 5</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot5"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot5" style="width:20%;">
+    </div>
+    <div class="all6" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 6</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot6"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot6" style="width:20%;">
+    </div>
+    <div class="all7" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 7</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot7"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot7" style="width:20%;">
+    </div>
+    <div class="all8" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 8</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot8"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot8" style="width:20%;">
+    </div>
+    <div class="all9" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 9</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot9"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot9" style="width:20%;">
+    </div>
+    <div class="all10" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 10</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot10"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot10" style="width:20%;">
+    </div>
+    <div class="all11" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 11</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot11"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot11" style="width:20%;">
+    </div>
+    <div class="all12" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 12</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot12"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot12" style="width:20%;">
+    </div>
+    <div class="all13" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 13</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot13"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot13" style="width:20%;">
+    </div>
+    <div class="all14" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 14</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot14"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot14" style="width:20%;">
+    </div>
+    <div class="all15" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 15</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot15"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot15" style="width:20%;">
+    </div>
+    <div class="all16" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 16</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot16"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot16" style="width:20%;">
+    </div>
+    <div class="all17" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 17</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot17"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot17" style="width:20%;">
+    </div>
+    <div class="all18" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 18</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot18"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot18" style="width:20%;">
+    </div>
+    <div class="all19" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 19</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot19"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot19" style="width:20%;">
+    </div>
+    <div class="all20" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 20</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot20"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot20" style="width:20%;">
+    </div>
+    <div class="all21" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 21</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot21"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot21" style="width:20%;">
+    </div>
+    <div class="all22" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 22</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot22"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot22" style="width:20%;">
+    </div>
+    <div class="all23" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 23</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot23"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot23" style="width:20%;">
+    </div>
+    <div class="all24" style="display: none;">
+        <div class="hr-div-relay">
+            <hr>
+                <span class="optional">Slot 24</span>
+            <hr>
+        </div>
+        <label  for="node-input-slot24"><i class="fa fa-sliders"></i> Slot</label>
+        <input min="0" type="number" id="node-input-slot24" style="width:20%;">
+    </div>
 
-    <div class="hr-div-relay">
+    <!-- <div class="hr-div-relay">
         <hr>
         <span class="optional">Optional</span>
         <hr>
@@ -101,35 +418,6 @@
     <div class="form-row columm">
         <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Component Nickname</label>
         <input type="text" id="node-input-name" placeholder="Name">
-    </div>
-    <!-- <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div> -->
-    <!-- <br>
-    <div class="form-row">
-        <label for="node-input-AC_mode"><i class="fa fa-sliders"></i> AC mode</label>
-        <select id="node-input-AC_mode" style="width:16%">
-            <option value="true" selected>True</option> 
-            <option value="false">False</option>
-        </select>
-        <label for="node-input-scale" style="margin-left: 27%"><i class="fa fa-expand"></i> Scale</label>
-        <select id="node-input-scale" style="width:13%; margin-left:-10%">
-            <option value="300" selected>300</option> 
-            <option value="30">30</option>
-            <option value="6">6</option>
-          </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-channel_number"><i class="fa fa-list-ul"></i> Couple channel</label>
-        <input type="text" id="node-config-input-port" style="width:25%">
-        <div style="width:20px; margin-left:245px; margin-top:-34px" selected>
-            <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
-        </div>
-    </div> -->
-    <!-- <div class="form-row node-input-websocket" style="margin-top: 20px">
-        <label for="node-input-websocket"><i class="fa fa-random"></i> Websocket config</label>
-        <input type="text" id="node-input-websocket" style="width: 230px">
     </div> -->
 </script>
 

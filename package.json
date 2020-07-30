@@ -1,6 +1,6 @@
 {
   "name": "qm-multimeter-open-all-relays",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "multimeter open-all-relays module - Node-Red",
   "main": "open-all-relays.js",
   "scripts": {
