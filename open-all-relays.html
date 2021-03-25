@@ -4,7 +4,7 @@
         color: '#32CD32',
         defaults: {
             name:{ value: "" },
-            slot:{value:"", required: true},
+            slot:{value:"1", required: true},
 
             
             qtdAll:{value:0},
@@ -53,12 +53,12 @@
                 self.controle = self.controle+1 <= 24 ? self.controle + 1 : 24;
 
                 $(".all"+self.controle).show();
-                console.log(self.controle);
+                
             });
             $("#remOpenAllRelays").click(function(){
                 $(".all"+self.controle).hide();
                 self.controle = self.controle-1 >= 0 ? self.controle - 1 : 0;
-                console.log(self.controle);
+                
             });
         },
         oneditsave: function() {
